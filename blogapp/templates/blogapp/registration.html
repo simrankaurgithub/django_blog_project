@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Registraion
+{% endblock title %}
+{% block CSS %}
+{% endblock CSS %}
+{% block content %}
+<div class="container">
+    <h1>Register</h1>
+    <form action="" method="POST" novalidate>
+        {% csrf_token %}
+        <div>
+            {{form.username.label_tag}}
+            {{form.username}}
+            <!-- {{form.username.errors}} -->
+            <span id="name"></span>
+        </div> <br>
+        <!-- {{form.first_name.label_tag}}
+        {{form.first_name}}
+        {{form.first_name.errors}}
+        <br>
+        {{form.last_name.label_tag}}
+        {{form.last_name}}
+        {{form.last_name.errors}}
+        <br> -->
+        <div>
+            {{form.email.label_tag}}
+            {{form.email}}
+            {{form.email.errors}}
+            <span id="email"></span>
+        </div>
+        <br>
+        <div>
+            {{form.password1.label_tag}}
+            {{form.password1}}
+            {{form.password1.errors}}
+            <span id="pass1"></span>
+        </div>
+        <br>
+        <div>
+            {{form.password2.label_tag}}
+            {{form.password2}}
+            {{form.password2.errors}}
+            <span id="pass2"></span>
+        </div>
+        <br>
+        <input type="submit" value="Register">
+    </form>
+
+</div>
+{% endblock content %}
+{% block jsfile %}
+<script>
+    // const keyname = () => {
+    //     let uname = document.getElementById("{{form.username.auto_id}}").value;
+    //     let re = /^[A-Za-z0-9/_@/./+/-]+$/
+    //     if (!(re.test(uname))) {
+    //         document.getElementById("name").innerText = "Username can include alphabets , digits and @,.,+,-,_ only ";
+    //     }
+    //     else if (uname !== "") {
+    //         document.getElementById("name").innerText = "";
+    //     }
+    // }
+    // const blurname = () => {
+    //     let uname = document.getElementById("{{form.username.auto_id}}").value
+    //     if (uname === "") {
+    //         document.getElementById("name").innerText = "Username is required";
+    //     }
+    // }
+    // const keyemail = () => {
+    //     let uemail = document.getElementById("{{form.email.auto_id}}").value
+    //     console.log("simmi")
+    //     console.log(uemail)
+    // }
+    // const bluremail = () => {
+    //     let uemail = document.getElementById("{{form.email.auto_id}}").value
+    //     console.log(uemail)
+    //     let re = /^\w+([\.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    //     // if (!(re.test(uemail))) {
+    //     //     setEmailErr("Please enter valid email")
+    //     // }
+    // }
+    // const keypass1 = (e) => {
+    //     let upass = e.target.value
+    //     let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+    //     if (upass.length < 8) {
+    //         setPassErr("Password must have atleast 8 characters")
+    //     }
+    //     else if (!(re.test(upass))) {
+    //         setPassErr("Password should contain atleast one digit , one uppercase letter ,one lowercase letter , one special character")
+    //     }
+    //     else if ((re.test(upass))) {
+    //         setPassErr("")
+    //     }
+    // }
+    // const blurpass1 = (e) => {
+    //     let upass = e.target.value
+    //     let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+    //     if (upass === "") {
+    //         setPassErr("Password is required")
+    //     }
+    //     else if (!(re.test(upass))) {
+    //         setPassErr("Please enter valid password")
+    //     }
+    // }
+    // const keypass2 = (e) => {
+    //     let repass = e.target.value
+    //     let upass = document.getElementById("upass").value
+    //     if (repass !== "") {
+    //         setRePassErr("")
+    //     }
+    //     if (upass !== repass) {
+    //         setRePassErr("Password doesn't match")
+    //     }
+    // }
+    // const blurpass2 = (e) => {
+    //     let repass = e.target.value
+    //     if (repass === "") {
+    //         setRePassErr("Confirm password is required")
+    //     }
+    // }
+
+</script>
+
+{% endblock jsfile %}
