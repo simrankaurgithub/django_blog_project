@@ -1,29 +1,33 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import CustomUsers
 import re 
 
 
 class Register_form(UserCreationForm):
-    password1 = forms.CharField(error_messages={'required': 'Enter password'}, label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(error_messages={'required': 'Enter password again'},label='Password(again)', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
+    password1 = forms.CharField(error_messages={'required': 'Enter password'}, label='Password', widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class': 'form-control'}))
+    password2 = forms.CharField(error_messages={'required': 'Enter password again'},label='Confirm Password', widget=forms.PasswordInput(attrs={'placeholder':'Enter Confirm Password','class': 'form-control'}))
+    email = forms.EmailField(error_messages={'required' : 'Email is required'},widget=forms.EmailInput(attrs={'placeholder':'Enter Email','class': 'form-control'}) )
+    policy = forms.BooleanField(required = True , error_messages={'required' : 'Email is required'})
     class Meta:
-        model = User
+        model = CustomUsers
         fields = ['username', 'first_name', 'last_name', 'email']
         labels = {'first_name': 'First Name',
                   'last_name': 'Last Name',
                   'email': 'Email',
                   }
-        widgets = {'username': forms.TextInput(attrs={'class': 'form-control','onkeyup':'keyname()','onblur':'blurname()'}),
-                   'last_name': forms.TextInput(attrs={'class': 'form-control','onkeyup':'keyemail()','onblur':'bluremail()'}),
-                   'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-                   'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        widgets = {'username': forms.TextInput(attrs={'placeholder':'Enter Username','class': 'form-control','onkeyup':'keyname()','onblur':'blurname()'}),
+                   'first_name': forms.TextInput(attrs={'placeholder':'Enter First Name','class': 'form-control'}),
+                   'last_name': forms.TextInput(attrs={'placeholder':'Enter Last Name','class': 'form-control'}),
                    }
-        # error_messages={
-        #             'username' : { 'required' : 'please enter username '},
-        # }           
+        error_messages={
+                    'username' : { 'required' : 'please enter username '},
+        }           
     
+    def __init__(self, *args, **kwargs):
+        super(Register_form, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.pop("autofocus", None)
+
     # def clean(self):
     #     cleaned_data = super().clean()
     #     # valname=self.cleaned_data['username']

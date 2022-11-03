@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.urls import is_valid_path
-from .models import post
+from .models import posts
 from django.contrib.auth.forms import UserCreationForm
 from .forms import Register_form
 
 # Create your views here.
 def home (request):
-    blog= post.objects.all()
+    blog= posts.objects.all()
     return render(request, 'blogapp/home.html', {'post' : blog})
 
 def register (request):
@@ -21,3 +21,15 @@ def register (request):
 
 def login (request):
     return render(request, 'blogapp/login.html')
+
+def blogs (request):
+    return render(request, 'blogapp/blog.html')
+
+def terms (request):
+    return render(request, 'blogapp/terms.html')
+
+def policy (request):
+    return render(request, 'blogapp/policy.html')
+
+def about (request):
+    return render(request, 'blogapp/about.html')

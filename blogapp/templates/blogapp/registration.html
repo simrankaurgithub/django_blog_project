@@ -1,73 +1,99 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}
-Registraion
-{% endblock title %}
-{% block CSS %}
+{% block title %}Registraion{% endblock title %}
+
+{% block CSS %}{{block.super}}
+<style>
+    .image-container {
+        background-image: url("{% static 'blogapp/images/pexels-ella-olsson-1640774.jpg' %}");
+        background-size:cover;
+    }
+    .register-form{
+        border-radius: 20px;
+    }
+    #form-label{
+        font-weight: bold;
+    }
+    .register-button{
+        background-color: rgb(248, 166, 15);
+    }
+    .register-heading{
+        color: orange;
+    }
+    .register-anker{
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+</style>
 {% endblock CSS %}
+
+{% block header %}{{block.super}} {% endblock header %}
+
 {% block content %}
-<div class="container">
-    <h1>Register</h1>
-    <form action="" method="POST" novalidate>
+<div class="image-container py-xs-0 py-md-5 py-sm-5 py-lg-5 ">
+    <form  method="POST" novalidate class="px-4 shadow-lg  mx-auto register-form bg-white col-xs-8 col-sm-8 col-md-5 col-lg-3 ">
+        <h2 class="text-center p-3 register-heading">Register</h1>
         {% csrf_token %}
-        <div>
-            {{form.username.label_tag}}
-            {{form.username}}
-            <!-- {{form.username.errors}} -->
-            <span id="name"></span>
-        </div> <br>
-        <!-- {{form.first_name.label_tag}}
-        {{form.first_name}}
-        {{form.first_name.errors}}
-        <br>
-        {{form.last_name.label_tag}}
-        {{form.last_name}}
-        {{form.last_name.errors}}
-        <br> -->
-        <div>
-            {{form.email.label_tag}}
-            {{form.email}}
-            {{form.email.errors}}
-            <span id="email"></span>
+        <div class="my-3">
+           {{form.username}}
+            <small id="name" class="text-danger">{{form.username.errors}}</small>
         </div>
-        <br>
-        <div>
-            {{form.password1.label_tag}}
+        <div class="row my-3">
+            <div class="col-6">
+                {{form.first_name}}
+                <small id="first" class="text-danger">{{form.first_name.errors}}</small>
+            </div>
+            <div class="col-6">
+                {{form.last_name}}
+                <small id="last" class="text-danger">{{form.last_name.errors}}</small>
+            </div>
+        </div>
+        <div class="my-3">
+            {{form.email}}
+            <small id="email" class="text-danger">{{form.email.errors}}</small>
+        </div>
+        <div class="my-3">
             {{form.password1}}
             {{form.password1.errors}}
-            <span id="pass1"></span>
+            <small id="pass1" class="text-danger">{{form.password1.errors}}</small>
         </div>
-        <br>
-        <div>
-            {{form.password2.label_tag}}
+        <div class="my-3">
             {{form.password2}}
-            {{form.password2.errors}}
-            <span id="pass2"></span>
+            <small id="pass2" class="text-danger">{{form.password2.errors}}</small>
+        </div> 
+        <div class="my-3">
+            <small >{{form.policy}} I agree the <a href="{% url 'terms' %}" class="register-anker">Terms of Services</a>and <a
+                href="{% url 'policy' %}" class="register-anker">Privacy Policy</a>.</small>
+            <small id="policy" class="text-danger">{{form.password2.errors}}</small>
         </div>
-        <br>
-        <input type="submit" value="Register">
+        <input type="submit" value="Register" class="my-2 w-100 btn btn-warning register-button"> 
+        <small class="my-3 pb-5 text-center " >Already have an account ? <a href="{% url 'login' %}" class="register-anker">Login</a></small>
     </form>
-
 </div>
 {% endblock content %}
+
+{% block footer %}{{block.super}}{% endblock footer %}
+
 {% block jsfile %}
+{{block.super}}
 <script>
-    // const keyname = () => {
-    //     let uname = document.getElementById("{{form.username.auto_id}}").value;
-    //     let re = /^[A-Za-z0-9/_@/./+/-]+$/
-    //     if (!(re.test(uname))) {
-    //         document.getElementById("name").innerText = "Username can include alphabets , digits and @,.,+,-,_ only ";
-    //     }
-    //     else if (uname !== "") {
-    //         document.getElementById("name").innerText = "";
-    //     }
-    // }
-    // const blurname = () => {
-    //     let uname = document.getElementById("{{form.username.auto_id}}").value
-    //     if (uname === "") {
-    //         document.getElementById("name").innerText = "Username is required";
-    //     }
-    // }
+    const keyname = () => {
+        let uname = document.getElementById("{{form.username.auto_id}}").value;
+        let re = /^[A-Za-z0-9/_@/./+/-]+$/
+        if (!(re.test(uname))) {
+            document.getElementById("name").innerText = "Username can include alphabets , digits and @,.,+,-,_ only ";
+        }
+        else if (uname !== "") {
+            document.getElementById("name").innerText = "";
+        }
+    }
+    const blurname = () => {
+        let uname = document.getElementById("{{form.username.auto_id}}").value
+        if (uname === "") {
+            document.getElementById("name").innerText = "Username is required";
+        }
+    }
     // const keyemail = () => {
     //     let uemail = document.getElementById("{{form.email.auto_id}}").value
     //     console.log("simmi")

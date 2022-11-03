@@ -1,19 +1,24 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import  AbstractUser
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 # Create your models here.
 
-STATUS = (
-    (0,"Draft"),
-    (1,"Publish")
-)
+class CustomUsers(AbstractUser):
+    email = models.EmailField(blank=False , unique=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now= True)
+    status = models.BooleanField(default=True)
+    
+        
 
 
-class post (models.Model):
+class posts (models.Model):
     title=models.CharField(max_length=200)
     slug = models.CharField(max_length = 200)
-    author = models.ForeignKey(User, on_delete= models.CASCADE)
+    author = models.ForeignKey(CustomUsers, on_delete= models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now= True)
     image = models.ImageField(upload_to ='uploads/')
     content = models.TextField()
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.BooleanField(default=True)

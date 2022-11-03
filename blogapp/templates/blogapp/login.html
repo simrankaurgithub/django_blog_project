@@ -1,13 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}
-Login
-{% endblock title %}
-{% block CSS %}
-{% endblock CSS %}
-{% block content %}
-<h1>Login</h1>
-{% endblock content %}
-{% block jsfile %}
 
-{% endblock jsfile %}
+{% block title %} Login {% endblock title %}
+
+{% block CSS %} {{block.super}} 
+<style>
+    .image-container {
+        background-image: url("{% static 'blogapp/images/pexels-ella-olsson-1640774.jpg' %}");
+        background-size:cover;
+    }
+    .register-form{
+        border-radius: 20px;
+    }
+    #form-label{
+        font-weight: bold;
+    }
+    .register-button{
+        background-color: rgb(248, 166, 15);
+    }
+    .register-heading{
+        color: orange;
+    }
+    .register-anker{
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+</style>
+{% endblock CSS %}
+
+{% block header %}{{block.super}} {% endblock header %}
+
+{% block content %}
+<div class="image-container py-5 ">
+    <form  method="POST" novalidate class="px-4 shadow-lg  mx-auto register-form bg-white ">
+        <h2 class="text-center p-3 register-heading">Login</h1>
+        {% csrf_token %}
+        <div class="my-3">
+           {{form.username}}
+            <small id="name">{{form.username.errors}}</small>
+        </div>
+        
+        <input type="submit" value="Login" class="my-2 w-100 btn btn-warning register-button"> 
+        <small class="my-3 pb-5 text-center " >Don't have an account ? <a href="{% url 'register' %}" class="register-anker">Register</a></small>
+    </form>
+</div>
+
+
+
+{% endblock content %}
+
+{% block footer %}{{block.super}}{% endblock footer %}
+
+{% block jsfile %}{{block.super}} {% endblock jsfile %}

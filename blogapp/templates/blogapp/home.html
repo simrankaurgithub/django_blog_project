@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}
-Home
-{% endblock title %}
-{% block CSS %}
+{% block title %} Home {% endblock title %}
+{% block CSS %}{{block.super}}
 <style>
   .carousel-indicators li {
     width: 10px !important;
@@ -43,7 +41,10 @@ Home
   }
 </style>
 {% endblock CSS %}
-{% block content %}{{block.super}}
+
+{% block header %}{{block.super}} {% endblock header %}
+
+{% block content %}
 <div id="carouselExampleCaptions" class="carousel slide  " data-bs-ride="carousel" data-bs-interval="2000">
   <ol class="carousel-indicators">
     <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true"
@@ -95,6 +96,7 @@ Home
 </section> -->
 
 {% endblock content %}
-{% block jsfile %}
 
-{% endblock jsfile %}
+{% block footer %}{{block.super}}{% endblock footer %}
+
+{% block jsfile %}{{block.super}}{% endblock jsfile %}
