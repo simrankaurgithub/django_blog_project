@@ -6,24 +6,33 @@
 <style>
     .image-container {
         background-image: url("{% static 'blogapp/images/pexels-ella-olsson-1640774.jpg' %}");
-        background-size:cover;
+        background-size: cover;
     }
-    .register-form{
+
+    .register-form {
         border-radius: 20px;
     }
-    #form-label{
+
+    #form-label {
         font-weight: bold;
     }
-    .register-button{
+
+    .register-button {
         background-color: rgb(248, 166, 15);
     }
-    .register-heading{
+
+    .register-heading {
         color: orange;
     }
-    .register-anker{
+
+    .register-anker {
         text-decoration: none;
         font-weight: bold;
         color: black;
+    }
+
+    .sim {
+        font-size: 14px;
     }
 </style>
 {% endblock CSS %}
@@ -31,44 +40,54 @@
 {% block header %}{{block.super}} {% endblock header %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}}">
+    {{message}}
+</div>
+{% endfor %}
+{% endif %}
+
 <div class="image-container py-xs-0 py-md-5 py-sm-5 py-lg-5 ">
-    <form  method="POST" novalidate class="px-4 shadow-lg  mx-auto register-form bg-white col-xs-8 col-sm-8 col-md-5 col-lg-3 ">
-        <h2 class="text-center p-3 register-heading">Register</h1>
-        {% csrf_token %}
-        <div class="my-3">
-           {{form.username}}
-            <small id="name" class="text-danger">{{form.username.errors}}</small>
-        </div>
-        <div class="row my-3">
-            <div class="col-6">
-                {{form.first_name}}
-                <small id="first" class="text-danger">{{form.first_name.errors}}</small>
+    <form method="POST" novalidate
+        class="px-4 shadow-lg  mx-auto register-form bg-white col-xs-8 col-sm-8 col-md-5 col-lg-4 py-4">
+        <h2 class="text-center pb-3 register-heading">Register</h1>
+            {% csrf_token %}
+            <div class="my-3">
+                {{form.username}}
+                <small id="name" class="text-danger">{{form.username.errors|striptags}}</small>
             </div>
-            <div class="col-6">
-                {{form.last_name}}
-                <small id="last" class="text-danger">{{form.last_name.errors}}</small>
+            <div class="row my-3">
+                <div class="col-6">
+                    {{form.first_name}}
+                    <small id="fname" class="text-danger">{{form.first_name.errors|striptags}}</small>
+                </div>
+                <div class="col-6">
+                    {{form.last_name}}
+                    <small id="lname" class="text-danger">{{form.last_name.errors|striptags}}</small>
+                </div>
             </div>
-        </div>
-        <div class="my-3">
-            {{form.email}}
-            <small id="email" class="text-danger">{{form.email.errors}}</small>
-        </div>
-        <div class="my-3">
-            {{form.password1}}
-            {{form.password1.errors}}
-            <small id="pass1" class="text-danger">{{form.password1.errors}}</small>
-        </div>
-        <div class="my-3">
-            {{form.password2}}
-            <small id="pass2" class="text-danger">{{form.password2.errors}}</small>
-        </div> 
-        <div class="my-3">
-            <small >{{form.policy}} I agree the <a href="{% url 'terms' %}" class="register-anker">Terms of Services</a>and <a
-                href="{% url 'policy' %}" class="register-anker">Privacy Policy</a>.</small>
-            <small id="policy" class="text-danger">{{form.password2.errors}}</small>
-        </div>
-        <input type="submit" value="Register" class="my-2 w-100 btn btn-warning register-button"> 
-        <small class="my-3 pb-5 text-center " >Already have an account ? <a href="{% url 'login' %}" class="register-anker">Login</a></small>
+            <div class="my-3">
+                {{form.email}}
+                <small id="email" class="text-danger">{{form.email.errors|striptags}}</small>
+            </div>
+            <div class="my-3">
+                {{form.password1}}
+                <small id="pass1" class="text-danger">{{form.password1.errors|striptags}}</small>
+            </div>
+            <div class="my-3">
+                {{form.password2}}
+                <small id="pass2" class="text-danger">{{form.password2.errors|striptags}}</small>
+            </div>
+            <div class="my-3">
+                <small>{{form.policy}} I agree the <a href="{% url 'terms' %}" class="register-anker">Terms of
+                        Services</a>and <a href="{% url 'policy' %}" class="register-anker">Privacy Policy</a>.</small>
+                <br>
+                <small id="policy" class="text-danger">{{form.policy.errors|striptags}}</small>
+            </div>
+            <input type="submit" value="Register" class="my-2 w-100 btn btn-warning register-button">
+            <div class="mt-3 mb-2 text-center sim">Already have an account ? <a href="{% url 'login' %}"
+                    class="register-anker">Login</a></div>
     </form>
 </div>
 {% endblock content %}
@@ -78,14 +97,27 @@
 {% block jsfile %}
 {{block.super}}
 <script>
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+        }, 5000);
+    });
     const keyname = () => {
         let uname = document.getElementById("{{form.username.auto_id}}").value;
-        let re = /^[A-Za-z0-9/_@/./+/-]+$/
+        let re = /^[A-Za-z0-9/_@/./-]*$/
         if (!(re.test(uname))) {
-            document.getElementById("name").innerText = "Username can include alphabets , digits and @,.,+,-,_ only ";
+            document.getElementById("name").innerText = "Username can't contain special character except (@,.,+,-,_ ) ";
+        }
+        else if (uname.length < 4) {
+            document.getElementById("name").innerText = "Username should have atleast 4 characters";
         }
         else if (uname !== "") {
             document.getElementById("name").innerText = "";
+        }
+        if (uname.length > 100) {
+            document.getElementById("name").innerText = "Username can contain maximum 100 characters";
         }
     }
     const blurname = () => {
@@ -94,59 +126,94 @@
             document.getElementById("name").innerText = "Username is required";
         }
     }
-    // const keyemail = () => {
-    //     let uemail = document.getElementById("{{form.email.auto_id}}").value
-    //     console.log("simmi")
-    //     console.log(uemail)
-    // }
-    // const bluremail = () => {
-    //     let uemail = document.getElementById("{{form.email.auto_id}}").value
-    //     console.log(uemail)
-    //     let re = /^\w+([\.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
-    //     // if (!(re.test(uemail))) {
-    //     //     setEmailErr("Please enter valid email")
-    //     // }
-    // }
-    // const keypass1 = (e) => {
-    //     let upass = e.target.value
-    //     let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-    //     if (upass.length < 8) {
-    //         setPassErr("Password must have atleast 8 characters")
-    //     }
-    //     else if (!(re.test(upass))) {
-    //         setPassErr("Password should contain atleast one digit , one uppercase letter ,one lowercase letter , one special character")
-    //     }
-    //     else if ((re.test(upass))) {
-    //         setPassErr("")
-    //     }
-    // }
-    // const blurpass1 = (e) => {
-    //     let upass = e.target.value
-    //     let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-    //     if (upass === "") {
-    //         setPassErr("Password is required")
-    //     }
-    //     else if (!(re.test(upass))) {
-    //         setPassErr("Please enter valid password")
-    //     }
-    // }
-    // const keypass2 = (e) => {
-    //     let repass = e.target.value
-    //     let upass = document.getElementById("upass").value
-    //     if (repass !== "") {
-    //         setRePassErr("")
-    //     }
-    //     if (upass !== repass) {
-    //         setRePassErr("Password doesn't match")
-    //     }
-    // }
-    // const blurpass2 = (e) => {
-    //     let repass = e.target.value
-    //     if (repass === "") {
-    //         setRePassErr("Confirm password is required")
-    //     }
-    // }
-
+    const keyfname = () => {
+        let uname = document.getElementById("{{form.first_name.auto_id}}").value;
+        let re = /^[A-Za-z]*$/
+        if (!(re.test(uname))) {
+            document.getElementById("fname").innerText = "First name can contian alphabet only";
+        }
+        else if (uname !== "") {
+            document.getElementById("fname").innerText = "";
+        }
+        if (uname.length > 100) {
+            document.getElementById("fname").innerText = "First name can contain maximum 100 characters";
+        }
+    }
+    const blurfname = () => {
+        let uname = document.getElementById("{{form.first_name.auto_id}}").value
+        if (uname === "") {
+            document.getElementById("fname").innerText = "First Name is required";
+        }
+    }
+    const keylname = () => {
+        let uname = document.getElementById("{{form.last_name.auto_id}}").value;
+        let re = /^[A-Za-z]*$/
+        if (!(re.test(uname))) {
+            document.getElementById("lname").innerText = "Last Name can contian alphabet only";
+        }
+        else if (uname !== "") {
+            document.getElementById("lname").innerText = "";
+        }
+        if (uname.length > 100) {
+            document.getElementById("lname").innerText = "Last Name can contain maximum 100 characters";
+        }
+    }
+    const keyemail = () => {
+        let uemail = document.getElementById("{{form.email.auto_id}}").value
+        let re = /^\w+([\.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+        if (uemail === "") {
+            document.getElementById("email").innerText = "";
+        }
+        else if (!(re.test(uemail))) {
+            document.getElementById("email").innerText = "Email be like 'example@abc.efg'";
+        }
+        else if (re.test(uemail)) {
+            document.getElementById("email").innerText = "";
+        }
+    }
+    const bluremail = () => {
+        let uemail = document.getElementById("{{form.email.auto_id}}").value;
+        if (uemail === "") {
+            document.getElementById("email").innerText = "Email is required ";
+        }
+    }
+    const keypass1 = () => {
+        let upass = document.getElementById("{{form.password1.auto_id}}").value;
+        let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{0,}$/
+        if (upass.length < 8) {
+            document.getElementById("pass1").innerText = "Password must have atleast 8 characters"
+        }
+        else if (!(re.test(upass))) {
+            document.getElementById("pass1").innerText = "Password should contain atleast one digit, one uppercase, one lowercase, one special character"
+        }
+        else if (upass !== "") {
+            document.getElementById("pass1").innerText = ""
+        }
+        if (upass.length > 200) {
+            document.getElementById("pass1").innerText = "Password can contain maximum 200 characters";
+        }
+    }
+    const blurpass1 = () => {
+        let upass = document.getElementById("{{form.password1.auto_id}}").value;
+        if (upass === "") {
+            document.getElementById("pass1").innerText = "Password is required"
+        }
+    }
+    const keypass2 = () => {
+        let upass = document.getElementById("{{form.password1.auto_id}}").value;
+        let repass = document.getElementById("{{form.password2.auto_id}}").value
+        if (repass !== "") {
+            document.getElementById("pass2").innerText = ""
+        }
+        if (upass !== repass) {
+            document.getElementById("pass2").innerText = "Password doesn't match"
+        }
+    }
+    const blurpass2 = () => {
+        let repass = document.getElementById("{{form.password2.auto_id}}").value
+        if (repass === "") {
+            document.getElementById("pass2").innerText = "Confirm password is required"
+        }
+    }
 </script>
-
 {% endblock jsfile %}

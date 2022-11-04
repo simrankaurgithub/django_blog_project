@@ -9,7 +9,7 @@ class CustomUsers(AbstractUser):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now= True)
     status = models.BooleanField(default=True)
-    
+    first_name = models.CharField(max_length=255,blank =False)
         
 
 
