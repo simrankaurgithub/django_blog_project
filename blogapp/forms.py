@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm ,UsernameField
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm ,UsernameField, PasswordResetForm, SetPasswordForm
 from .models import CustomUsers
 import re
-
 
 class Register_form(UserCreationForm):
     password1 = forms.CharField(error_messages={'required': 'password is required'}, label='Password', widget=forms.PasswordInput(
@@ -65,3 +64,17 @@ class login_form(AuthenticationForm):
     password=forms.CharField(error_messages={'required':'Enter password'} ,strip=False,widget=forms.PasswordInput(attrs={'autocomplete':'current-possword' ,'placeholder':'Enter password','class': 'form-control', 'onkeyup': 'keypass()', 'onblur': 'blurpass()' }))
 
     
+class MyPasswordResetForm(PasswordResetForm):
+    email=forms.EmailField(label="Email", max_length=254,widget=forms.EmailInput(attrs={'autofocus':'email','class':'form-control','placeholder':'Enter Email'}))
+
+
+class MySetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(label='New Password',
+     widget=forms.PasswordInput(attrs={'autocomplete':'new-password','placeholder': 'New Password', 'class': 'form-control'}),
+        strip=False,
+    )
+    new_password2 = forms.CharField(
+        label="New password confirmation",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete':'new-password','placeholder': 'New Password Confirmation', 'class': 'form-control'}),
+    )

@@ -3,12 +3,149 @@
 
 {% block title %} About {% endblock title %}
 
-{% block CSS %} {{block.super}} {% endblock CSS %}
+{% block CSS %} {{block.super}}
+<style>
+    #content-img {
+        padding-left: 20px;
+        width: 70%;
+        float: right;
+    }
 
-{% block header %}{{block.super}} {% endblock header %}
+    span {
+        text-align: justify;
+    }
+
+    .simmi {
+        background-color: whitesmoke;
+    }
+</style>
+{% endblock CSS %}
 
 {% block content %}
-<h1>About</h1>
+{% include "blogapp/navbar.html" %}
+<section class="simmi">
+    <div class="container px-4">
+        <h2 class="py-4">About Me</h2>
+        <img src="{% static 'blogapp/images/about.jpg' %}" id="content-img">
+        <p>Hi. I'm Alexandra Stafford, but you can call me Ali. I love cooking, I always have, and I love teaching
+            people how to cook.</p>
+        <p>
+            In 2006 on a whim, I started Alexandra's Kitchen, a place for mostly simple, always seasonal recipes. Eleven
+            years later, my cookbook, <span class="fw-bold">Bread Toast Crumbs</span>, made its way into the world. And
+            today I spend my days
+            cooking, baking, writing, and eventually recording everything here on Alexandra's Kitchen. I live in Upstate
+            New York with my husband, four children, and two cats.</p>
+
+        <p> If you're new here, check out this <span class="fw-bold">Getting Started Guide</span>, which will help you
+            navigate the 900+ recipes.</p>
+
+        <p>Below you will find <span class="fw-bold">10 Quick Things About Me</span> as well as
+            <span class="fw-bold">a little more background</span>, but first:
+        </p> <br>
+        <h3>10 Quick Things About Me</h3>
+        <p><span class="fw-bold">1. I love bread. </span> I love eating bread. I love making bread. I love <span
+                class="fw-bold">teaching people how to bake bread.</span> I wrote
+            a cookbook all about bread and how to use every last crumb to its full potential. Read more about Bread
+            Toast Crumbs, an IACP finalist,<span class="fw-bold"> here.</span></p>
+
+        <p> <span class="fw-bold">2. Cooking seasonally </span>is of utmost importance to me. I subscribe to a farm
+            share, the Roxbury Farm CSA
+            (Community Supported Agriculture—more on that here), nearly year round. I love the weekly challenge of using
+            a box of vegetables to its fullest potential and helping others do the same. More on CSAs here.</p>
+
+        <p><span class="fw-bold">3. I don't follow any specific diet </span>— Whole30, vegan, vegetarian, paleo, Atkins,
+            gluten-free, low-carb, keto,
+            etc. I believe in balance and moderation. I believe in <span class="fw-bold">eating humanely raised
+                meats.</span> I believe in eating
+            seasonally, and supporting local, sustainable agriculture within your means. I love nothing more than a
+            simple roast chicken, a BLT, and a griddled burger, but more and more, I find myself drawn to <span
+                class="fw-bold">vegetarian
+                cooking.</span>
+        </p>
+        <p>4. Immediately after college, I attended <span class="fw-bold">cooking school in Philadelphia, </span> spent
+            five years working in
+            <span class="fw-bold">catering and restaurant kitchens</span> in and outside of the city. I spent two years
+            at Fork, where I ultimately
+            was the sous chef for Thien Ngo. More about that experience here.
+        </p>
+
+        <p>5. For several years, I contributed weekly to <span class="fw-bold">Food52,</span> writing about weeknight
+            cooking. Alexandra's Kitchen
+            has twice been nominated for a <span class="fw-bold">Saveur Blog Award </span> the Most Inspired Weeknight
+            Cooking category, and <span class="fw-bold">in
+                2018 it won.</span> More weeknight cooking inspiration here.</p>
+
+        <p> <span class="fw-bold">6. I'm a homebody.</span> So happy at home. Zero wanderlust. But:<span
+                class="fw-bold"> Paris.</span></p>
+
+        <p>7. A few years ago, I <span class="fw-bold">renovated my kitchen.</span> If youre thinking about a similar
+            renovation, this post might be
+            of interest: <span class="fw-bold">How To Plan for a Kitchen Renovation. Here's my kitchen today: Kitchen
+                Reveal.</span></p>
+
+        <p> <span class="fw-bold">8. I love cookbooks. </span> library contains over 500 books. It continues to grow.
+        </p>
+
+        <p>9. I generally avoid social media, but I've found a happy place in Instagram Stories , where I can video the
+            step-by-step process of simple recipes without uttering a peep. (Previous stories can be accessed by
+            clicking the circles beneath <span class="fw-bold">my profile)<span class="fw-bold"></span>. I can be found
+                in stories at least once a week recording my
+                favorite recipe of the hour.<span class="fw-bold"> Come say hi! @alexandracooks</span></p>
+
+        <p>10. Today, I live in Upstate New York with my husband, 4 children (ages 5, 6, 8, and 10), and our two cats,
+            Jedi and Anakin.
+        </p> <br>
+        <h3>A little more background:</h3>
+        <p>If you've been reading for awhile, then you know that no one has influenced my love for cooking more than my
+            mother. I grew up eating <span class="fw-bold">homemade bread </span><span class="fw-bold"> nearly every
+                meal, not knowing <span class="fw-bold">salad dressing</span> and <span class="fw-bold">chicken
+                    stock</span>
+                could be purchased at a store, and thinking there was nothing unusual about making <span
+                    class="fw-bold">spanakopita and moussaka</span>
+                from scratch.</p>
+
+        <p>After college, I enrolled in a six-month cooking school in South Philly, then spent several years working at
+            <span class="fw-bold">catering companies</span> and restaurants in and outside of the city. The two years I
+            spent in the <span class="fw-bold">Fork </span>
+            first as a prep cook and ultimately as sous chef for Thien Ngo most notably have shaped what and how I cook
+            today. Not a day goes by when I don't think about something Thien taught me — how to dice onions into
+            <span class="fw-bold">perfect little diamonds;</span> how to make the <span class="fw-bold">crispiest
+                fingerling potatoes;</span> how to create the <span class="fw-bold">prettiest lemon</span>
+            wedges by cutting straight down around a lemon's center.
+        </p>
+
+        <p>With the exception of a few traumatizing experiences — working the Sunday brunch omelet station (for a year),
+            for example — I had a ball in that kitchen. I often dream about the fried egg sandwiches with Chinese
+            sausage on just-baked rolls Thien would whip up as a morning snack, a reward for knocking out our to-do
+            list; and about squeezing <span class="fw-bold">fresh lime juice </span> fresh papaya and then scooping out
+            its flesh, the perfect
+            breakfast; and about sipping full-fat cappuccinos made with <span class="fw-bold">La Colombe </span> beans,
+            the best in the city;
+            and about wrapping <span class="fw-bold">tinga</span> in tortillas topped with Isidoro's guacamole, the
+            staff's most requested family
+            meal; and about wine and cheese dinners when <span class="fw-bold">Max MacCallman </span> to town, the most
+            fun night of the entire
+            year.</p>
+
+        <p>I had a ball outside that kitchen, too, mostly in Chinatown on my bike following Thien to various restaurants
+            and shops inevitably returning to the restaurant with live Dungeness crabs squirming in my backpack and
+            fresh rice noodles digesting in my belly. Thien introduced me to the Vietnamese sauce mam nem and to green
+            papaya salad at <span class="fw-bold">Nam Phuong;</span> to snails with black bean sauce, steamed live
+            shrimp, pan-fried noodles, and
+            stir-fried crab with ginger and scallions at Tai Lake; and to tacos de lengua at <span class="fw-bold">La
+                Lupe</span>. Thien made the
+            most memorable braised chicken curry, romaine salad with sauce gribiche, and pan-seared duck confit. He
+            drank only grenache wines, specifically <span class="fw-bold">Gigondas AOC wines</span>, and at dinner hour
+            was rarely seen without a
+            glass in hand.</p>
+
+        <p> feel incredibly lucky to have had the opportunity to work at a place that continues to thrive after 20
+            years. Fork's owner Ellen Yin was the first to introduce me to the mantra “buy fresh, buy local”, a concept
+            the restaurant has been committed to since opening its doors and one that has forever shaped how I cook. If
+            ever you find yourself in Philly, be sure to stop by <span class="fw-bold">Fork </span> a meal — it's a
+            wonderful place.</p> <br><br>
+    </div>
+</section>
 {% endblock content %}
 
 {% block footer %}{{block.super}}{% endblock footer %}

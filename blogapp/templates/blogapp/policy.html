@@ -5,9 +5,8 @@
 
 {% block CSS %} {{block.super}} {% endblock CSS %}
 
-{% block header %}{{block.super}} {% endblock header %}
-
 {% block content %}
+{% include "blogapp/navbar.html" %}
 <h1>Privacy Ploicy</h1>
 {% endblock content %}
 

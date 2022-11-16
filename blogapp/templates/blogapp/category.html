@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} blog {% endblock title %}
+
+{% block CSS %} {{block.super}}
+<style>
+    #bg-color {
+        background-color: whitesmoke;
+    }
+
+    /* @media screen and (min-width: 600px) {
+        .card {
+            width: 25%;
+        }
+    }
+    @media screen and (min-width: 768px) {
+        .card {
+            width: 27%;
+        }
+    } */
+
+    @media screen and (min-width: 992px) {
+        .card {
+            width: 29.1% !important;
+        }
+    }
+
+    .post-image {
+        height: 230px;
+        border: 0px solid white;
+        transition: border 1s;
+    }
+
+    .post-image:hover,
+    .post-image:focus {
+        border: solid 10px white;
+    }
+
+    .card-title {
+        transition: color 0.2s;
+    }
+
+    .card-title:hover,
+    .card-title:focus {
+        color: orange;
+    }
+
+    .read {
+        color: black;
+    }
+
+    .read:hover,
+    .read:focus {
+        color: orange;
+        font-weight: bold;
+    }
+</style>
+{% endblock CSS %}
+
+{% block content %}
+{% include "blogapp/navbar.html" %}
+<section id="bg-color">
+        <div class="py-4 row col-11  mx-auto ">
+            {% for cat in cats %}
+            <div class="card  border-0 p-0 my-4 mx-4 col-md-5 col-sm-11">
+                <a href="{% url 'detail' cat.slug %}"><img class="card-img-top post-image "
+                        src="{{cat.image.url}}"></a>
+                <div class="card-body pb-0">
+                    <a href="{% url 'detail' cat.slug %}" class="text-decoration-none text-dark">
+                        <h5 class="card-title fw-bold ">{{cat.title}}</h5>
+                    </a>
+                    <small class="mb-1">{{cat.created_at|date:'M d, Y'}}</small>
+                    <p class="card-text mb-0">{{cat.content|truncatewords:12|safe}}</p>
+                    <a href="{% url 'detail' cat.slug %}" class="text-decoration-none  read">Read More <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+</section>
+{% endblock content %}
+
+{% block footer %}{{block.super}}{% endblock footer %}
+
+{% block jsfile %}{{block.super}} {% endblock jsfile %}

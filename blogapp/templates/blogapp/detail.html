@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{post.title|lower}}{% endblock title %}
+
+{% block CSS %} {{block.super}}
+<style>
+    #content-img{
+        padding-left: 20px;
+        width: 70%;
+        float: right;
+    }
+    span{
+        text-align: justify;
+    }
+    .simmi{
+        background-color: whitesmoke;
+    }
+</style>
+{% endblock CSS %}
+
+{% block content %}
+{% include "blogapp/navbar.html" %}
+<section class="simmi">
+    <div class="container px-4">
+        <h2 class="py-4">{{post.title}}</h2> 
+        <img src="{{post.image.url}}" id="content-img">
+        <span>{{post.content|safe}}</span> <br><br>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block footer %}{{block.super}}{% endblock footer %}
+
+{% block jsfile %}{{block.super}} {% endblock jsfile %}
