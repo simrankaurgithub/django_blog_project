@@ -11,6 +11,8 @@ class CustomUsers(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now= True)
     first_name = models.CharField(max_length=255,blank =False)
+    # phone_number = models.CharField(max_length=12 , default='')
+    # address= models.TextField(default='')
 
 
 class Category(models.Model):
@@ -34,8 +36,8 @@ class Post (models.Model):
     slug = models.SlugField(max_length = 200 ,blank=True)
     category_id = models.ForeignKey(Category, on_delete= models.CASCADE)
     author = models.ForeignKey(CustomUsers, on_delete= models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now= True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now= True)
     image = models.ImageField(upload_to ='uploads/')
     content = RichTextField()
         

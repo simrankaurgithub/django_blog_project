@@ -12,10 +12,10 @@ class Register_form(UserCreationForm):
     class Meta:
         model = CustomUsers
         fields = ['username', 'first_name', 'last_name', 'email']
-        widgets = {'username': forms.TextInput(attrs={'placeholder':'Enter Username','class': 'form-control','onkeyup':'keyname()','onblur':'blurname()'}),
+        widgets = {'username': forms.TextInput(attrs={'placeholder':'Enter Username','class': 'form-control','onkeyup':'keyname()','onblur':'blurname()','oninput': 'check_username()'}),
                    'first_name': forms.TextInput(attrs={'placeholder':'Enter First Name','class': 'form-control','onkeyup':'keyfname()','onblur':'blurfname()'}),
                    'last_name': forms.TextInput(attrs={'placeholder':'Enter Last Name','class': 'form-control','onkeyup':'keylname()'}),
-                   'email' : forms.EmailInput(attrs={'placeholder':'Enter Email','class': 'form-control','onkeyup':'keyemail()','onblur':'bluremail()'}),
+                   'email' : forms.EmailInput(attrs={'placeholder':'Enter Email','class': 'form-control','onkeyup':'keyemail()','onblur':'bluremail()','oninput': 'check_email()'}),
                    }
         error_messages={
                     'username' : { 'required' : 'Username is required'},
@@ -42,19 +42,19 @@ class Register_form(UserCreationForm):
     def clean_email(self):
         email=self.cleaned_data['email']
         print (email)
-        if not re.match("^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$", email):
+        if not re.match("^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+.[a-z]{2,3}$", email):
             raise forms.ValidationError('Enter a valid email address.')
         return email
     
     def clean_password1(self):
         password1=self.cleaned_data['password1']
-        if not re.match("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,200}$", password1):
+        if not re.match("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,200}$", password1):
             raise forms.ValidationError('Enter valid password')
         return password1
 
     def clean_password2(self):
         password2=self.cleaned_data['password2']
-        if not re.match("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,200}$", password2):
+        if not re.match("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,200}$", password2):
             raise forms.ValidationError('Enter valid confirm password')
         return password2
 

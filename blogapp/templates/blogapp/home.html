@@ -60,17 +60,25 @@
 {% block content %}
 {% include "blogapp/navbar.html" %}
 
-<div class="owl-carousel owl-theme container my-5">
-  {% for blogs in blogs %}
-  <div class="item"><a href="{% url 'category' blogs.slug %}">
-      <img class="carousel-image" src="{{ blogs.image.url }}"></a>
-    <h5 class='text-center'>{{blogs.name}}</h5>
-    </a>
-  </div>
-  {% endfor %}
-</div>
-
 <section id="bg-color">
+  <div class="owl-carousel owl-theme container py-5">
+    {% for blogs in blogs %}
+    <div class="item"><a href="{% url 'category' blogs.slug %}">
+        <img class="carousel-image" src="{{ blogs.image.url }}"></a>
+      <h5 class='text-center'>{{blogs.name}}</h5>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="owl-carousel owl-theme container py-5">
+    {% for i in sim %}
+    <div class="item"><a href="{% url 'category' i.slug %}">
+        <img class="carousel-image" src="{{ i.image.url }}"></a>
+      <h5 class='text-center'>{{i.name}}</h5>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
   <div class="py-4 row col-11  mx-auto">
     {% for cats in post %}
     <div class="card  border-0 p-0 my-4 mx-4 col-md-5 col-sm-11 ">
@@ -80,7 +88,7 @@
         <a href="{% url 'detail' cats.slug %}" class="text-decoration-none text-dark">
           <h5 class="card-title fw-bold ">{{cats.title}}</h5>
         </a>
-        <small class="mb-1">{{cats.created_at|date:'M d, Y'}}</small>
+        <small class="mb-1">{{cats.updated_at|date:'M d, Y'}}</small>
         <p class="card-text mb-0">{{cats.content|truncatewords:12|safe}}</p>
         <a href="{% url 'detail' cats.slug %}" class="text-decoration-none  read">Read More <i
             class="fa-solid fa-arrow-right"></i></a>
@@ -88,7 +96,7 @@
     </div>
     {% endfor %}
   </div>
-</section> 
+</section>
 {% endblock content %}
 
 {% block footer %}{{block.super}}{% endblock footer %}

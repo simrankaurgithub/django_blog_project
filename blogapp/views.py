@@ -1,4 +1,5 @@
 from django.shortcuts import render ,HttpResponseRedirect
+from django.http import JsonResponse
 from django.urls import is_valid_path
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
@@ -19,22 +20,29 @@ def blog():
 
 def home (request):
     blogs=blog()
+    count=0
+    category=[]
+    for i in blogs :
+        category.append(i)
+        count+=1
+        if count == 5 :
+            break
+
+    sim=Category.objects.all()
     post= Post.objects.all().order_by("-updated_at")[:9]
-    return render(request, 'blogapp/home.html', {'post' : post, 'blogs' : blogs})
+    return render(request, 'blogapp/home.html', {'post' : post, 'blogs' : blogs ,'category':category ,'sim':sim})
 
 
 def category (request , slug):
     category= Category.objects.get(slug=slug)
-    cats=Post.objects.all().filter(category_id=category).order_by("-updated_at")
+    cats=Post.objects.filter(category_id=category).order_by("-updated_at")
     return render(request, 'blogapp/category.html', {'cats' : cats })
 
 def all_blogs (request ):
     posts= Post.objects.all().order_by("-updated_at")
-    print(posts)
     return render(request, 'blogapp/all_blogs.html', {'posts' : posts })
     
 def detail (request , slug):
-    print (slug)
     post= Post.objects.get(slug=slug)
     return render(request, 'blogapp/detail.html',{'post':post})
 
@@ -86,8 +94,26 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 def profile(request,username):
+    # sim=CustomUsers.objects.filter(username=username).values()[0]
+
     profile=CustomUsers.objects.get(username=username)
     return render(request, 'blogapp/profile.html',{'profile':profile})
+
+def check_user_exist(request):
+    username=request.GET.get('username')
+    check=CustomUsers.objects.filter(username=username)
+    if len(check)==0:
+        return JsonResponse ({"status":0,"message":"not exist"})
+    else:
+        return JsonResponse({"status":1,"message":"Exist"})
+
+def check_email_exist(request):
+    email=request.GET.get('email')
+    check=CustomUsers.objects.filter(email=email)
+    if len(check)==0:
+        return JsonResponse ({"status":0,"message":"not exist"})
+    else:
+        return JsonResponse({"status":1,"message":"Exist"})
 
 def terms (request):
     return render(request, 'blogapp/terms.html')

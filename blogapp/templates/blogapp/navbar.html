@@ -72,7 +72,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-color container">
+   <section class="bg-white sticky-top shadow">
+    <nav class="navbar navbar-expand-lg container">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static 'blogapp/images/logo1.png' %}" alt="no logo" height="60px">
@@ -120,10 +121,10 @@
                 <span class="fw-bold">/</span>
                 <a href="{% url 'register' %}" class="nav-link">Register</i></a>
                 {% endif %}
-    
             </div>
         </div>
     </nav>
+   </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

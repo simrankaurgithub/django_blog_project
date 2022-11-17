@@ -12,15 +12,45 @@
 {% include "blogapp/navbar.html" %}
 <section>
     <div class="container">
+        <a href="#">Add Blog</a>
         <div class="row">
-            
+            <div class="col-5 bg-danger">
+                <p class="text-center"><img src="{% static 'blogapp/images/avatar.png' %}" alt="no image" height="210px"
+                        style="border-radius: 50%;" class="mx-auto"></p>
+                <h6 class="text-center">{{profile.username}}</h6>
+                <h6 class="text-center">{{profile.email}}</h6>
+            </div>
+            <div class="col-6">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>{{profile.username}}</td>
+                        </tr>
+                        <tr>
+                            <td>First name</td>
+                            <td>{{profile.first_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{profile.email}}</td>
+                        </tr>
+                        {% if profile.last_name %}
+                        <tr>
+                            <td>Last name</td>
+                            <td>{{profile.last_name}}</td>
+                        </tr>
+                        {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 
 </section>
-<h2>{{profile.username}}</h2>
-<h2>{{profile.first_name}}</h2>
-<h2>{{profile.email}}</h2>
+
 
 
 {% endblock content %}

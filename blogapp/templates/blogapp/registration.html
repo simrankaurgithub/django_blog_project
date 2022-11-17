@@ -30,9 +30,10 @@
         font-weight: bold;
         color: black;
     }
+
     .register-anker:hover {
-        color:orange;
-        font-weight:bold;
+        color: orange;
+        font-weight: bold;
     }
 
     .anker-tag {
@@ -60,6 +61,7 @@
             <div class="my-3">
                 {{form.username}}
                 <small id="name" class="text-danger">{{form.username.errors|striptags}}</small>
+                <small id="name1" class="text-danger"></small>
             </div>
             <div class="row my-3">
                 <div class="col-6">
@@ -74,6 +76,7 @@
             <div class="my-3">
                 {{form.email}}
                 <small id="email" class="text-danger">{{form.email.errors|striptags}}</small>
+                <small id="email1" class="text-danger"></small>
             </div>
             <div class="my-3">
                 {{form.password1}}
@@ -108,6 +111,44 @@
             });
         }, 5000);
     });
+
+    const check_username = () => {
+        uname = document.getElementById("{{form.username.auto_id}}").value;
+        $.ajax({
+            url: "{% url 'check_user_exist' %}",
+            method: "GET",
+            data: { username: uname },
+            success: function (data) {
+                console.log(data)
+                if (data.status==0){
+                document.getElementById("name1").innerText = "";
+                }
+                else {
+                document.getElementById("name1").innerText = "Username already exists";
+                }
+                
+            }
+        })
+    }
+
+    const check_email = () => {
+        uemail = document.getElementById("{{form.email.auto_id}}").value;
+        $.ajax({
+            url: "{% url 'check_email_exist' %}",
+            method: "GET",
+            data: { email: uemail },
+            success: function (data) {
+                console.log(data)
+                if (data.status==0){
+                document.getElementById("email1").innerText = "";
+                }
+                else {
+                document.getElementById("email1").innerText = "Email already exists";
+                }
+            }
+        })
+    }
+
     const keyname = () => {
         let uname = document.getElementById("{{form.username.auto_id}}").value;
         let re = /^[A-Za-z0-9/_@/./-]*$/
