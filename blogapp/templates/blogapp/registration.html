@@ -45,13 +45,6 @@
 {% block content %}
 {% include "blogapp/navbar.html" %}
 
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-{{message.tags}}">
-    {{message}}
-</div>
-{% endfor %}
-{% endif %}
 
 <div class="image-container py-xs-0 py-md-5 py-sm-5 py-lg-5 ">
     <form method="POST" novalidate
@@ -88,7 +81,7 @@
             </div>
             <div class="my-3">
                 <small>{{form.policy}} I agree the <a href="{% url 'terms' %}" class="register-anker">Terms of
-                        Services</a>and <a href="{% url 'policy' %}" class="register-anker">Privacy Policy</a>.</small>
+                        Services </a>and <a href="{% url 'policy' %}" class="register-anker">Privacy Policy</a>.</small>
                 <br>
                 <small id="policy" class="text-danger">{{form.policy.errors|striptags}}</small>
             </div>

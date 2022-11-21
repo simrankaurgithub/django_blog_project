@@ -9,8 +9,7 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(CustomUsers)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id','username','email','created_at','updated_at']
-    
-
+ 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

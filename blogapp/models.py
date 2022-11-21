@@ -11,8 +11,11 @@ class CustomUsers(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now= True)
     first_name = models.CharField(max_length=255,blank =False)
-    # phone_number = models.CharField(max_length=12 , default='')
-    # address= models.TextField(default='')
+    phone_number = models.CharField(max_length=10 , blank=True)
+    address= models.TextField( blank=True,)
+    image = models.ImageField(upload_to ='profile/',  blank=True)
+
+
 
 
 class Category(models.Model):

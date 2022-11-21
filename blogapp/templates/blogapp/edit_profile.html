@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registraion{% endblock title %}
+
+{% block CSS %}{{block.super}}
+<style>
+    .register-form {
+        border-radius: 20px;
+    }
+
+    #form-label {
+        font-weight: bold;
+    }
+
+    .register-button {
+        background-color: rgb(248, 166, 15);
+    }
+
+    .register-heading {
+        color: orange;
+    }
+
+    .register-anker {
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+
+    .register-anker:hover {
+        color: orange;
+        font-weight: bold;
+    }
+
+    .anker-tag {
+        font-size: 14px;
+    }
+</style>
+{% endblock CSS %}
+
+{% block content %}
+{% include "blogapp/navbar.html" %}
+
+
+<div class="py-xs-0 py-md-5 py-sm-5 py-lg-5 ">
+    <form method="POST" novalidate enctype="multipart/form-data" action=""
+        class="px-4 shadow-lg  mx-auto register-form bg-white col-xs-8 col-sm-8 col-md-5 col-lg-8 py-4">
+        {% csrf_token %}
+        <h2 class="text-center pb-3 register-heading">Edit Profile</h1>
+            <small id="error" class="text-danger"></small>
+            <div class="row my-3">
+                <div class="col-3">{{form.first_name.label}}</div>
+                <div class="col-9">
+                    {{form.first_name}}
+                    <small id="fname" class="text-danger">{{form.first_name.errors|striptags}}</small>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{form.last_name.label}}</div>
+                <div class="col-9">
+                    {{form.last_name}}
+                    <small id="fname" class="text-danger">{{form.last_name.errors|striptags}}</small>
+                </div>
+            </div>
+            <div class=" row my-3">
+                <div class="col-3">{{form.phone_number.label}} </div>
+                <div class="col-9">{{form.phone_number}}
+                    <small id="name" class="text-danger">{{form.phone_number.errors|striptags}}</small>
+                    <small id="name1" class="text-danger"></small>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{form.address.label}}</div>
+                <div class="col-9">{{form.address}}
+                    <small id="fname" class="text-danger">{{form.address.errors|striptags}}</small>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{form.image.label}}</div>
+                <div class="col-9">{{form.image}}
+                    <small id="lname" class="text-danger">{{form.image.errors|striptags}}</small>
+                </div>
+            </div>
+            <input type="submit" onclick="validate()" value="Update" class="my-2 w-100 btn btn-warning register-button">
+    </form>
+</div>
+{% endblock content %}
+
+{% block footer %}{{block.super}}{% endblock footer %}
+
+{% block jsfile %}
+{{block.super}}
+<script>
+// function validate(){
+//     let uname = document.getElementById("{{form.first_name.auto_id}}").value;
+//     if ((first_name=="")||(!(/^[A-Za-z]*$/.test(uname)))) {
+//         document.getElementById("error").innerText = "Invalid";
+//     }
+// }
+</script>
+{% endblock jsfile %}

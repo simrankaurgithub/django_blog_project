@@ -5,50 +5,86 @@
 
 {% block CSS %} {{block.super}}
 <style>
+    .profile-image {
+        height: 210px;
+        border-radius: 50%;
+    }
+    .profile-button{
+        background:black;
+        color:white;
+        border-radius:7px;
+        width:100px;
+        height:40px;
+    }
+    .profile-button:hover {
+        background:orange;
+        border:orange;
+        color:black;
+    }
+    
 </style>
 {% endblock CSS %}
 
 {% block content %}
 {% include "blogapp/navbar.html" %}
-<section>
+<section  id="bg-color">
     <div class="container">
-        <a href="#">Add Blog</a>
-        <div class="row">
-            <div class="col-5 bg-danger">
-                <p class="text-center"><img src="{% static 'blogapp/images/avatar.png' %}" alt="no image" height="210px"
-                        style="border-radius: 50%;" class="mx-auto"></p>
-                <h6 class="text-center">{{profile.username}}</h6>
-                <h6 class="text-center">{{profile.email}}</h6>
+        <div class="offset-9 col-4 pt-3">
+            <a href="{% url 'add-blog' %}"><button class="profile-button">Add Blog</button></a>
+            <a href="{% url 'edit-profile' profile.username %}"><button class="profile-button">Edit Profile
+            </button>
+            </a>
+        </div>
+        <div class="row py-4">
+            <div class="col-5  ">
+                {% if profile.image %}
+                <p class="text-center">
+                    <img src="{{profile.image.url}}" alt="connect" class="profile-image" >
+                </p>
+                {% else %}
+                <p class="text-center">
+                    <img src="{% static 'blogapp/images/avatar.png' %}" class="profile-image">
+                </p>
+                {% endif %}
             </div>
-            <div class="col-6">
-                <table class="table table-striped">
+            <div class="col-6 my-auto">
+                <table class="table">
                     <tbody>
                         <tr>
-                            <td>Username</td>
+                            <td class="px-5 col-6">Username</td>
                             <td>{{profile.username}}</td>
                         </tr>
                         <tr>
-                            <td>First name</td>
+                            <td class="px-5 col-6">First name</td>
                             <td>{{profile.first_name}}</td>
                         </tr>
                         <tr>
-                            <td>Email</td>
+                            <td class="px-5 col-6">Email</td>
                             <td>{{profile.email}}</td>
                         </tr>
                         {% if profile.last_name %}
                         <tr>
-                            <td>Last name</td>
+                            <td class="px-5 col-6">Last name</td>
                             <td>{{profile.last_name}}</td>
                         </tr>
                         {% endif %}
-
+                        {% if profile.phone_number %}
+                        <tr>
+                            <td class="px-5 col-6">Phone number</td>
+                            <td>{{profile.phone_number}}</td>
+                        </tr>
+                        {% endif %}
+                        {% if profile.address %}
+                        <tr>
+                            <td class="px-5 col-6">Address</td>
+                            <td>{{profile.address}}</td>
+                        </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
-
 </section>
 
 

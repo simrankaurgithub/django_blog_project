@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registraion{% endblock title %}
+
+{% block CSS %}{{block.super}}
+<style>
+    .register-form {
+        border-radius: 20px;
+    }
+
+    #form-label {
+        font-weight: bold;
+    }
+
+    .register-button {
+        background-color: rgb(248, 166, 15);
+    }
+
+    .register-heading {
+        color: orange;
+    }
+
+    .register-anker {
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+    }
+
+    .register-anker:hover {
+        color: orange;
+        font-weight: bold;
+    }
+
+    .anker-tag {
+        font-size: 14px;
+    }
+    #cke_id_content{
+        width:100% !important;
+    }
+</style>
+{% endblock CSS %}
+
+{% block content %}
+{% include "blogapp/navbar.html" %}
+
+
+<div class="py-xs-0 py-md-5 py-sm-5 py-lg-5 ">
+    <form method="POST" novalidate enctype="multipart/form-data" action=""
+        class="px-4 shadow-lg  mx-auto register-form bg-white col-xs-8 col-sm-8 col-md-5 col-lg-8 py-4">
+        {% csrf_token %}
+        {{add_form.media}}
+        <h2 class="text-center pb-3 register-heading">Add Blog</h1>
+            <div class="row my-3">
+                <div class="col-3">{{add_form.title.label}}</div>
+                <div class="col-9">
+                    {{add_form.title}}
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{add_form.slug.label}}</div>
+                <div class="col-9">
+                    {{add_form.slug}}
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{add_form.author.label}}</div>
+                <div class="col-9">{{add_form.author}}
+                </div>
+            </div>
+            <div class=" row my-3">
+                <div class="col-3">{{add_form.category_id.label}} </div>
+                <div class="col-9">{{add_form.category_id}}
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{add_form.image.label}}</div>
+                <div class="col-9">
+                    {{add_form.image}}
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-3">{{add_form.content.label}}</div>
+                <div class="col-9">{{add_form.content}}
+                </div>
+            </div> 
+            <input type="submit" onclick="validate()" value="Add" class="my-2 w-100 btn btn-warning register-button">
+    </form>
+</div>
+{% endblock content %}
+
+{% block footer %}{{block.super}}{% endblock footer %}
+
+{% block jsfile %}
+{{block.super}}
+{% endblock jsfile %}

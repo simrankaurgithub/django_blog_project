@@ -16,87 +16,89 @@
     <title></title>
     <style>
         .navbar-brand {
-               padding: 0px;
-           }
-       
-           .logo {
-               font-size: 30px;
-               font-weight: bold;
-           }
-       
-           .nav-link {
-               color: black;
-               font-weight: bold;
-               font-size: 17px;
-           }
-       
-           .nav-link:hover,
-           .nav-link:focus {
-               color: orange;
-       
-           }
-       
-           .dropdown {
-               position: relative;
-               display: inline-block;
-               margin-right: 10px;
-           }
-       
-           .dropdown-menu {
-               display: none;
-               position: absolute;
-               background-color: black;
-           }
-       
-           .dropdown-menu a {
-               display: block;
-               color: white;
-           }
-       
-           .dropdown-menu a:hover {
-               color: orange;
-               font-weight: bold;
-               background-color: black;
-               font-size: 14px;
-           }
-       
-           .dropdown:hover .dropdown-menu {
-               display: block;
-           }
-       
-           .dropdown:hover .dropdown-toggle {
-               color: orange;
-           } 
-        
-       </style>
+            padding: 0px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            color: black;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus {
+            color: orange;
+            font-size: 17px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: black;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: white;
+        }
+
+        .dropdown-menu a:hover {
+            color: orange;
+            font-weight: bold;
+            background-color: black;
+            font-size: 17px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-toggle {
+            color: orange;
+        }
+    </style>
 </head>
 
 <body>
-   <section class="bg-white sticky-top shadow">
-    <nav class="navbar navbar-expand-lg container">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <img src="{% static 'blogapp/images/logo1.png' %}" alt="no logo" height="60px">
-                <span class="logo">EASY FOOD</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% for category in category %}
-                            <li><a class="dropdown-item" href="{% url 'category' category.slug %}">
-                                    {{category.name}}
-                                </a></li>
-                            {% endfor %}
-                        </ul>
+    <section class="bg-white sticky-top shadow">
+        <nav class="navbar navbar-expand-lg container">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'blogapp/images/logo1.png' %}" alt="no logo" height="60px">
+                    <span class="logo">EASY FOOD</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Latest Categories
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for blogs in blogs %}
+                                {% if forloop.counter < 7 %} 
+                                <li><a class="dropdown-item" href="{% url 'category' blogs.slug %}">
+                                        {{blogs.name}}
+                                    </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'all-blogs' %}">All Categories</a>
@@ -104,27 +106,27 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
-                </ul>
-                {% if request.user.is_authenticated %}
-                <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        {{user.username}}
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'profile' user.username  %}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                     </ul>
-                </li>
-                {% else %}
-                <a href="{% url 'login' %}" class="nav-link">Login</i></a>
-                <span class="fw-bold">/</span>
-                <a href="{% url 'register' %}" class="nav-link">Register</i></a>
-                {% endif %}
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{user.username}}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'profile' user.username  %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Login</i></a>
+                    <span class="fw-bold">/</span>
+                    <a href="{% url 'register' %}" class="nav-link">Register</i></a>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    </nav>
-   </section>
+        </nav>
+    </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

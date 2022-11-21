@@ -14,33 +14,30 @@
   .carousel-image:focus {
     border: solid 10px white;
   }
-
-  #bg-color {
-    background-color: whitesmoke;
-  }
-
   @media screen and (min-width: 992px) {
     .card {
       width: 29.1% !important;
     }
   }
-
-  .post-image {
+  .post-image{
     height: 230px;
+  }
+
+  .post-image , .carousel-image {
     border: 0px solid white;
     transition: border 1s;
   }
 
-  .post-image:hover,
-  .post-image:focus {
+  .post-image:hover, .carousel-image:hover
+  .post-image:focus, .carousel-image:hover {
     border: solid 10px white;
   }
 
-  .card-title {
+  .card-title , .carousel-title {
     transition: color 0.2s;
   }
 
-  .card-title:hover,
+  .card-title:hover ,  .carousel-title:hover,
   .card-title:focus {
     color: orange;
   }
@@ -54,34 +51,31 @@
     color: orange;
     font-weight: bold;
   }
+  .owl-carousel{
+    width: 83%;
+  }
+
+
 </style>
 {% endblock CSS %}
 
+
 {% block content %}
 {% include "blogapp/navbar.html" %}
-
-<section id="bg-color">
-  <div class="owl-carousel owl-theme container py-5">
+<section >
+<div id="bg-color">
+  <div class="owl-carousel owl-theme mx-auto  pt-5 ">
     {% for blogs in blogs %}
     <div class="item"><a href="{% url 'category' blogs.slug %}">
         <img class="carousel-image" src="{{ blogs.image.url }}"></a>
-      <h5 class='text-center'>{{blogs.name}}</h5>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
-  <div class="owl-carousel owl-theme container py-5">
-    {% for i in sim %}
-    <div class="item"><a href="{% url 'category' i.slug %}">
-        <img class="carousel-image" src="{{ i.image.url }}"></a>
-      <h5 class='text-center'>{{i.name}}</h5>
+      <a><h5 class="text-center carousel-title"> {{blogs.name}}</h5>
       </a>
     </div>
     {% endfor %}
   </div>
   <div class="py-4 row col-11  mx-auto">
     {% for cats in post %}
-    <div class="card  border-0 p-0 my-4 mx-4 col-md-5 col-sm-11 ">
+    <div class="card shadow border-0 p-0 my-4 mx-4 col-md-5 col-sm-11 ">
       <a href="{% url 'detail' cats.slug %}">
         <img class="card-img-top post-image" src="{{ cats.image.url }}"></a>
       <div class="card-body pb-0">
@@ -89,13 +83,14 @@
           <h5 class="card-title fw-bold ">{{cats.title}}</h5>
         </a>
         <small class="mb-1">{{cats.updated_at|date:'M d, Y'}}</small>
-        <p class="card-text mb-0">{{cats.content|truncatewords:12|safe}}</p>
+        <p class="card-text mb-0">{{cats.content|safe|truncatechars:90}}</p>
         <a href="{% url 'detail' cats.slug %}" class="text-decoration-none  read">Read More <i
             class="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
     {% endfor %}
   </div>
+</div>
 </section>
 {% endblock content %}
 

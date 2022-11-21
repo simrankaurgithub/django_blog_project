@@ -13,47 +13,89 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- alertify css -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+
     <title>{% block title %}{% endblock title %}</title>
-{% block CSS %}
-<style>
-    body {
-        /* font-family: 'Inter', sans-serif; */
-        font-family: 'Poppins', sans-serif;
-    }
-    .footer li {
-        list-style: none;
-    }
+    {% block CSS %}
+    <style>
+        body {
+            /* font-family: 'Inter', sans-serif; */
+            font-family: 'Poppins', sans-serif;
+        }
 
-    .footer a {
-        text-decoration: none;
-        color: black;
-        font-size: 15px;
-    }
+        #bg-color {
+            background-color: whitesmoke;
+        }
 
-    .footer a:hover {
-        color: orange;
-        font-weight: bold;
-    }
+        .foot {
+            box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
+        }
 
-    .footer {
-        padding-left: 0px;
-    }
+        .footer li {
+            list-style: none;
+        }
 
-    .bg-color {
-        background-color: rgb(230, 227, 227);
-    }
-</style>
-{% endblock CSS %}
+        .footer a {
+            text-decoration: none;
+            color: black;
+            font-size: 15px;
+        }
+
+        .footer a:hover {
+            color: orange;
+            font-weight: bold;
+            font-size: 17px;
+
+        }
+
+        .footer {
+            padding-left: 0px;
+        }
+
+        .owl-prev {
+            left: -35px;
+        }
+
+        .owl-next {
+            right: -35px;
+        }
+
+        .owl-prev,
+        .owl-next {
+            position: absolute;
+            top: 80px;
+        }
+
+        .owl-prev span,
+        .owl-next span {
+            font-size: 60px;
+            color: black;
+        }
+
+        /* .owl-theme .owl-controls .owl-nav [class*=owl-]:hover {
+            background-color: red;
+        } */
+    </style>
+    {% endblock CSS %}
 </head>
+
 <body>
-    
     {% block content %}
+
     {% endblock content %}
 
     {% block footer %}
-    <section class="bg-color">
+    <section class="foot">
         <div class="container pt-5 pb-4">
             <div class="row">
                 <div class="col-lg-6 col-sm-12 ">
@@ -61,16 +103,17 @@
                     <p class="pt-3">Hello and welcome to EASY FOOD ! I'm Lisa, a real food lover, meal prep fanatic and
                         massive wanderluster. I' also a big advocate of self-care and taking life “down a notch” while
                         chasing adventures half-way across the globe!
-                        </p>
+                    </p>
                 </div>
                 <div class="col-lg-3 offset-1 d-lg-block d-md-block d-sm-none">
-                    <h5 class="fw-bold">Categories</h5>
+                    <h5 class="fw-bold">Latest Categories</h5>
                     <ul class="footer">
-                        {% for category in category %}
-                        <li><a href="{% url 'category' category.slug %}">
-                                {{category.name}}
+                        {% for blogs in blogs %}
+                        {% if forloop.counter < 7 %} <li><a href="{% url 'category' blogs.slug %}">
+                                {{blogs.name}}
                             </a></li>
-                        {% endfor %}
+                            {% endif%}
+                            {% endfor %}
                     </ul>
                 </div>
                 <div class="col-lg-2 d-lg-block d-md-block d-sm-none">
@@ -87,9 +130,9 @@
                 </div>
             </div>
         </div>
-        <p class="bg-dark text-white text-center py-2">Copyright <span id="cur-year"></span> EASY FOOD. All rights
+        <div class="bg-dark text-white text-center py-2">&#169; <span id="cur-year"></span> EASY FOOD. All rights
             reserved.
-        </p>
+        </div>
     </section>
     {% endblock footer %}
     {% block jsfile %}
@@ -97,32 +140,38 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Alertify javascripts -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script>
         const d = new Date();
         let year = d.getFullYear();
         document.getElementById("cur-year").innerText = year;
-
+        // {% for flashmsg in messages %}
+        // alertify.set('notifier', 'position', 'top-right');
+        // alertify.success('{{flashmsg}}');
+        // {% endfor %}
         $('.owl-carousel').owlCarousel({
-            loop:true,
-            margin:40,
-            nav:true,
-            autoplay:true,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 40,
+            nav: true,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                600:{
-                    items:3
+                600: {
+                    items: 3
                 },
-                1000:{
-                    items:5
+                1000: {
+                    items: 5
                 }
             }
-          })
+        })
     </script>
-    
+
     {% endblock jsfile %}
 
 </body>
