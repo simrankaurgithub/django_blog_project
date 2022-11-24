@@ -6,7 +6,7 @@
 <style>
     .image-container {
         background-image: url("{% static 'blogapp/images/pexels-ella-olsson-1640774.jpg' %}");
-        background-size: cover;
+        background-size:cover;
     }
 
     .register-form {
@@ -97,13 +97,6 @@
 {% block jsfile %}
 {{block.super}}
 <script>
-    $(document).ready(function () {
-        window.setTimeout(function () {
-            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
-                $(this).remove();
-            });
-        }, 5000);
-    });
 
     const check_username = () => {
         uname = document.getElementById("{{form.username.auto_id}}").value;

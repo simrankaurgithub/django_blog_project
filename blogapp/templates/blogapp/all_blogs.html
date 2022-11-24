@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} blog {% endblock title %}
+{% block title %}all blogs {% endblock title %}
 
 {% block CSS %} {{block.super}}
 <style>
@@ -55,12 +55,12 @@
             <div class="card shadow border-0 p-0 my-4 mx-4 col-md-5 col-sm-11">
                 <a href="{% url 'detail' posts.slug %}"><img class="card-img-top post-image "
                         src="{{posts.image.url}}"></a>
-                <div class="card-body pb-0">
+                <div class="card-body ">
                     <a href="{% url 'detail' posts.slug %}" class="text-decoration-none text-dark">
-                        <h5 class="card-title fw-bold ">{{posts.title}}</h5>
+                        <h5 class="card-title fw-bold ">{{posts.title|truncatechars:21}}</h5>
                     </a>
-                    <small class="mb-1">{{posts.updated_at|date:'M d, Y'}}</small>
-                    <p class="card-text mb-0">{{posts.content|safe|truncatechars:90}}</p>
+                    <small class="mb-1">{{posts.updated_at|date:'M. d, Y'}}</small>
+                    <p class="card-text mb-0">{{posts.content|safe|truncatechars:70}}</p>
                     <a href="{% url 'detail' posts.slug %}" class="text-decoration-none  read">Read More <i
                             class="fa-solid fa-arrow-right"></i></a>
                 </div>

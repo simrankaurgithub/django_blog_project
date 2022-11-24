@@ -10,10 +10,6 @@ class Register_form(UserCreationForm):
         attrs={'placeholder': 'Enter Password', 'class': 'form-control', 'onkeyup': 'keypass1()', 'onblur': 'blurpass1()'}))
     password2 = forms.CharField(error_messages={'required': 'Confirm password is required'}, label='Confirm Password', widget=forms.PasswordInput(
         attrs={'placeholder': 'Enter Confirm Password', 'class': 'form-control', 'onkeyup': 'keypass2()', 'onblur': 'blurpass2()'}))
-    # phone_number = forms.CharField(required=False, widget=forms.TextInput(
-    #     attrs={'placeholder': 'Phone Number', 'class': 'form-control'}),)
-    # address = forms.Textarea()
-    image = forms.ImageField(required=False)
     policy = forms.BooleanField(required=True, error_messages={
                                 'required': 'Please agree the conditions'})
 
@@ -49,6 +45,12 @@ class Register_form(UserCreationForm):
         if not re.match("^[a-zA-Z]*$", fname):
             raise forms.ValidationError('Enter a valid first name')
         return fname
+    
+    def clean_last_name(self):
+        lname = self.cleaned_data['last_name']
+        if not re.match("^[a-zA-Z]*$", lname):
+            raise forms.ValidationError('Enter a valid last name')
+        return lname    
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -69,29 +71,35 @@ class Register_form(UserCreationForm):
             raise forms.ValidationError('Enter valid confirm password')
         return password2
 
-    # def clean_phone_number(self):
-    #     phone_number = self.cleaned_data['phone_number']
-    #     print(phone_number)
-    #     if not re.match("^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+.[a-z]{2,3}$", phone_number):
-    #         raise forms.ValidationError('Enter a valid email address.')
-    #     return phone_number
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        if phone_number == '':
+            pass
+        elif not re.match("^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$", phone_number):
+            raise forms.ValidationError('Enter a valid Phone number.')
+        return phone_number
 
 
 class Post_form(ModelForm):
+    category_id = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Select Category",widget=forms.Select(attrs={'class': 'w-100 cat'}))
     class Meta:
         model = Post
-        fields = "__all__"
-        widgets = {'title': forms.TextInput(attrs={'placeholder': 'Enter TItle', 'class': 'form-control'}),
-                   'slug': forms.TextInput(attrs={'placeholder': 'Enter slug', 'class': 'form-control'}),
-                   'category_id': forms.Select(attrs={'placeholder': 'Enter slug', 'class': 'form-control'}),
-                   'author': forms.Select(attrs={'placeholder': 'Enter slug', 'class': 'form-control'}),
-
+        fields = '__all__'
+        widgets = {'title': forms.TextInput(attrs={'placeholder': 'Enter Title', 'class': 'form-control'}),
+                   'category_id': forms.Select(attrs={'class': 'form-control'}),
                    }
+    
+    # def clean_title(self):
+    #     title = self.cleaned_data['title']
+    #     print(title,"###########################################")
+    #     if  not re.match("^[a-zA-Z]*$", title):
+    #         raise forms.ValidationError('title field is required.')
+        # return title
 
 
 class login_form(AuthenticationForm):
     username = UsernameField(error_messages={'required': 'Enter username'}, widget=forms.TextInput(attrs={
-                             'autofocus': True, 'placeholder': 'Enter username or email', 'class': 'form-control', 'onkeyup': 'keyname()', 'onblur': 'blurname()'}))
+                             'autofocus': False, 'placeholder': 'Enter username or email', 'class': 'form-control', 'onkeyup': 'keyname()', 'onblur': 'blurname()'}))
     password = forms.CharField(error_messages={'required': 'Enter password'}, strip=False, widget=forms.PasswordInput(
         attrs={'autocomplete': 'current-possword', 'placeholder': 'Enter password', 'class': 'form-control', 'onkeyup': 'keypass()', 'onblur': 'blurpass()'}))
 

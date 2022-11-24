@@ -61,8 +61,8 @@ def register(request):
 
 
 def user_login(request):
-    blogs=blog()
     if not request.user.is_authenticated:
+        blogs=blog()
         if request.method == 'POST':
             fm = login_form(request=request, data=request.POST)
             username = request.POST['username']
@@ -87,10 +87,12 @@ def user_login(request):
                         messages.success(request, 'Logged in succesfully !')
                         return HttpResponseRedirect('/')
                     else:
-                        messages.error(request, 'Inavalid Credentials')
-                        return HttpResponseRedirect('/login/')
+                        print("invalid")
+                        messages.error(request, 'Invalid credentials !')
+                        # return HttpResponseRedirect('/login/')
         fm = login_form()
         return render(request, 'blogapp/login.html', {'form': fm, 'blogs': blogs})
+    return render(request, 'blogapp/home.html')
 
 
 def user_logout(request):
@@ -109,9 +111,8 @@ def edit_profile(request, username):
     blogs = blog()
     user = CustomUsers.objects.get(username=username)
     if request.method == 'POST':
-        fm = Register_form(request.POST)
+        fm = Register_form(request.POST, instance=user)
         first_name = request.POST['first_name']
-        print(first_name)
         last_name = request.POST['last_name']
         phone_number = request.POST['phone_number']
         address = request.POST['address']
@@ -121,24 +122,65 @@ def edit_profile(request, username):
             pass
         user.save()
         if ((re.match("^[a-zA-Z]+$", first_name))):
-            if(((phone_number == "") or (re.match("^[0-9]{10}$", phone_number))) and ((last_name == "") or (re.match ("^[a-zA-Z]+$",last_name)))):
+            if(((phone_number == "") or (re.match("^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$", phone_number))) and ((last_name == "") or (re.match ("^[a-zA-Z]+$",last_name)))):
                 CustomUsers.objects.filter(username=username).update(first_name=first_name, last_name=last_name, phone_number=phone_number,address=address)
                 messages.success(request, "Profile updated successfuly !")
-                return HttpResponseRedirect(f"/profile/{username}")
+                return HttpResponseRedirect(f"/profile/{username}")   
         else:
             messages.error(request, 'Inavalid Credentials')
     else:
         fm = Register_form(instance = user)
-    return render(request, 'blogapp/edit_profile.html', {'form': fm, 'blogs': blogs})
+    return render(request, 'blogapp/edit_profile.html', {'form': fm, 'blogs': blogs, 'user' : user})
 
 
-def add_blog(request):
+def add_blog(request, username):
     blogs = blog()
     if request.method == 'POST':
-        add_form=Post_form(request.POST)
+        add_form = Post_form(request.POST, request.FILES, )
+        title = request.POST['title']
+        category_id = request.POST['category_id']
+        content = request.POST['content']
+        try:
+            user = CustomUsers.objects.get(username=username)
+            data = Category.objects.get(id =category_id )
+            image = request.FILES['image']
+            Post(title=title, category_id=data, image=image,content=content, author=user).save()
+            messages.success(request, "Blog added successfuly !")
+            return HttpResponseRedirect(f"/profile/{username}")
+        except:
+            pass
     else:
         add_form=Post_form()    
     return render(request, 'blogapp/add_blog.html', {'blogs': blogs, 'add_form':add_form})
+
+
+def edit_blog(request, slug):
+    blogs = blog()
+    detail = Post.objects.get(slug=slug)
+    if request.method == 'POST':
+        add_form = Post_form( request.POST , instance=detail)
+        title = request.POST['title']
+        category_id = request.POST['category_id']
+        content = request.POST['content']
+        try:
+            detail.image = request.FILES['image']
+        except:
+            pass
+        detail.save()
+        if ((title != '' )and(category_id != '') and (content != '')):
+            data = Category.objects.get(id = category_id)
+            Post.objects.filter(id=detail.pk).update(title=title, category_id=data.pk, content=content)
+            messages.success(request, "Blog updated successfuly !")
+            return HttpResponseRedirect(f"/{slug}/") 
+    else:
+        add_form=Post_form(instance = detail)    
+    return render(request, 'blogapp/add_blog.html', {'blogs': blogs, 'add_form':add_form , 'detail' : detail})
+
+def my_blogs(request,username):
+    blogs = blog()
+    user = CustomUsers.objects.get(username=username)
+    my_blogs=Post.objects.filter(author=user).order_by('-updated_at')
+    return render(request, 'blogapp/my_blogs.html', {'blogs': blogs , 'my_blogs' : my_blogs})
 
 
 def check_user_exist(request):
@@ -158,6 +200,14 @@ def check_email_exist(request):
     else:
         return JsonResponse({"status": 1, "message": "Exist"})
 
+# def check_login(request):
+#     username = request.GET.get('username')
+#     check = CustomUsers.objects.filter(username=username)
+#     if len(check) == 0:
+#         return JsonResponse({"status": 0, "message": "Invalid"})
+#     else:
+#         return JsonResponse({"status": 1, "message": "valid"})
+
 
 def terms(request):
     blogs = blog()
@@ -172,3 +222,11 @@ def policy(request):
 def about(request):
     blogs = blog()
     return render(request, 'blogapp/about.html',  {'blogs': blogs})
+
+
+def handle_404_error(request, exception):
+    return render(request, 'blogapp/404_error.html')
+
+
+def handle_500_error(request):
+    return render(request, 'blogapp/500_error.html')

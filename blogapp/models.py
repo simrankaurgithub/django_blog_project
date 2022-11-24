@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import  AbstractUser
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
+from phone_field import PhoneField
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
 # Create your models here.
@@ -11,17 +12,15 @@ class CustomUsers(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now= True)
     first_name = models.CharField(max_length=255,blank =False)
-    phone_number = models.CharField(max_length=10 , blank=True)
-    address= models.TextField( blank=True,)
-    image = models.ImageField(upload_to ='profile/',  blank=True)
-
-
+    phone_number = models.CharField(max_length=20 , blank=True, unique=True)
+    address= models.TextField( blank=True)
+    image = models.ImageField(upload_to = 'profile/',  blank=True)
 
 
 class Category(models.Model):
     name=models.CharField(max_length=200)
     slug = models.SlugField(max_length = 200, blank=True)
-    image = models.ImageField(upload_to ='category/')
+    image = models.ImageField(upload_to ='category/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now= True)
 

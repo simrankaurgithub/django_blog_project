@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} blog {% endblock title %}
+{% block title %}{{category.name|lower}}{% endblock title %}
 
 {% block CSS %} {{block.super}}
 <style>
@@ -62,23 +62,25 @@
 {% include "blogapp/navbar.html" %}
 <section id="bg-color">
     <h3 class="text-center pt-4 ">{{category.name}}</h3>
-        <div class="py-4 row col-11  mx-auto ">
-            {% for cat in cats %}
-            <div class="card shadow border-0 p-0 my-4 mx-4 col-md-5 col-sm-11">
-                <a href="{% url 'detail' cat.slug %}"><img class="card-img-top post-image "
-                        src="{{cat.image.url}}"></a>
-                <div class="card-body pb-0">
-                    <a href="{% url 'detail' cat.slug %}" class="text-decoration-none text-dark">
-                        <h5 class="card-title fw-bold ">{{cat.title}}</h5>
-                    </a>
-                    <small class="mb-1">{{cat.updated_at|date:'M d, Y'}}</small>
-                    <p class="card-text mb-0">{{cat.content|safe|truncatechars:90}}</p>
-                    <a href="{% url 'detail' cat.slug %}" class="text-decoration-none  read">Read More <i
-                            class="fa-solid fa-arrow-right"></i></a>
+    <div class="py-4 row col-11  mx-auto ">
+        {% for cat in cats %}
+        <div class="card shadow border-0 p-0 my-4 mx-4 col-md-5 col-sm-11">
+            <a href="{% url 'detail' cat.slug %}"><img class="card-img-top post-image " src="{{cat.image.url}}"></a>
+            <div class="card-body ">
+                <a href="{% url 'detail' cat.slug %}" class="text-decoration-none text-dark">
+                    <h5 class="card-title fw-bold ">{{cat.title|truncatechars:21}}</h5>
+                </a>
+                <div class="mb-2  d-flex justify-content-between">
+                    <small><i class="fa-regular fa-calendar text-warning"></i> &nbsp; {{cat.updated_at|date:'M. d, Y'}}</small>
+                    <small><i class="fa-solid fa-user text-warning"></i>&nbsp; {{cat.author}}</small>
                 </div>
+                <p class="card-text mb-0">{{cat.content|safe|truncatechars:70}}</p>
+                <a href="{% url 'detail' cat.slug %}" class="text-decoration-none  read">Read More <i
+                        class="fa-solid fa-arrow-right"></i></a>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
+    </div>
 </section>
 {% endblock content %}
 

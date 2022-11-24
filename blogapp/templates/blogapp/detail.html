@@ -5,16 +5,31 @@
 
 {% block CSS %} {{block.super}}
 <style>
-    #content-img{
+    #content-img {
         padding-left: 20px;
         width: 70%;
         float: right;
     }
-    span{
+
+    span {
         text-align: justify;
     }
-    .simmi{
+
+    .simmi {
         background-color: whitesmoke;
+    }
+
+    .profile-button {
+        background: black;
+        color: white;
+        border-radius: 7px;
+        width: 100px;
+        height: 40px;
+    }
+
+    .profile-button:hover {
+        color: orange;
+        font-weight: bold;
     }
 </style>
 {% endblock CSS %}
@@ -23,7 +38,17 @@
 {% include "blogapp/navbar.html" %}
 <section class="simmi">
     <div class="container px-4">
-        <h2 class="py-4">{{post.title}}</h2> 
+        <div class=" py-4 d-flex justify-content-between">
+            <h2>{{post.title}}</h2>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'edit-blog' post.slug %}"><button class="profile-button ">Edit
+                    Blog</button></a>
+            {% endif %}
+        </div>
+        <div class="pb-4  ">
+            <small class="mr-5"><i class="fa-regular fa-calendar text-warning"></i> &nbsp; {{post.updated_at|date:'M. d, Y'}}</small>
+            <small><i class="fa-solid fa-user text-warning"></i>&nbsp; {{post.author}}</small>
+        </div>
         <img src="{{post.image.url}}" id="content-img">
         <span>{{post.content|safe}}</span> <br><br>
     </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Registraion{% endblock title %}
+{% block title %}edit profile{% endblock title %}
 
 {% block CSS %}{{block.super}}
 <style>
@@ -58,7 +58,7 @@
                 <div class="col-3">{{form.last_name.label}}</div>
                 <div class="col-9">
                     {{form.last_name}}
-                    <small id="fname" class="text-danger">{{form.last_name.errors|striptags}}</small>
+                    <small id="lname" class="text-danger">{{form.last_name.errors|striptags}}</small>
                 </div>
             </div>
             <div class=" row my-3">
@@ -69,17 +69,25 @@
                 </div>
             </div>
             <div class="row my-3">
-                <div class="col-3">{{form.address.label}}</div>
-                <div class="col-9">{{form.address}}
-                    <small id="fname" class="text-danger">{{form.address.errors|striptags}}</small>
+                <div class="col-3">Image</div>
+                <div class="col-9">Currently: <a href="{{user.image.url}}">{{user.image}}</a>
+                    <br> Change:
+                    <input type="file" name="image" accept="image/*" id="id_image">
+                    <small class="text-danger"></small>
                 </div>
             </div>
             <div class="row my-3">
-                <div class="col-3">{{form.image.label}}</div>
-                <div class="col-9">{{form.image}}
-                    <small id="lname" class="text-danger">{{form.image.errors|striptags}}</small>
+                <div class="col-3">{{form.address.label}}</div>
+                <div class="col-9">{{form.address}}
+                    <small class="text-danger">{{form.address.errors|striptags}}</small>
                 </div>
             </div>
+            <!-- <div class="row my-3">
+                <div class="col-3">{{form.image.label}}</div>
+                <div class="col-9">{{form.image}}
+                    <small class="text-danger">{{form.image.errors|striptags}}</small>
+                </div>
+            </div> -->
             <input type="submit" onclick="validate()" value="Update" class="my-2 w-100 btn btn-warning register-button">
     </form>
 </div>
@@ -90,11 +98,43 @@
 {% block jsfile %}
 {{block.super}}
 <script>
-// function validate(){
-//     let uname = document.getElementById("{{form.first_name.auto_id}}").value;
-//     if ((first_name=="")||(!(/^[A-Za-z]*$/.test(uname)))) {
-//         document.getElementById("error").innerText = "Invalid";
-//     }
-// }
+    // function validate(){
+    //     let uname = document.getElementById("{{form.first_name.auto_id}}").value;
+    //     if ((first_name=="")||(!(/^[A-Za-z]*$/.test(uname)))) {
+    //         document.getElementById("error").innerText = "Invalid";
+    //     }
+    // }
+    const keyfname = () => {
+        let uname = document.getElementById("{{form.first_name.auto_id}}").value;
+        let re = /^[A-Za-z]*$/
+        if (!(re.test(uname))) {
+            document.getElementById("fname").innerText = "First name can contian alphabet only";
+        }
+        else if (uname !== "") {
+            document.getElementById("fname").innerText = "";
+        }
+        if (uname.length > 100) {
+            document.getElementById("fname").innerText = "First name can contain maximum 100 characters";
+        }
+    }
+    const blurfname = () => {
+        let uname = document.getElementById("{{form.first_name.auto_id}}").value
+        if (uname === "") {
+            document.getElementById("fname").innerText = "First Name is required";
+        }
+    }
+    const keylname = () => {
+        let uname = document.getElementById("{{form.last_name.auto_id}}").value;
+        let re = /^[A-Za-z]*$/
+        if (!(re.test(uname))) {
+            document.getElementById("lname").innerText = "Last Name can contian alphabet only";
+        }
+        else if (uname !== "") {
+            document.getElementById("lname").innerText = "";
+        }
+        if (uname.length > 100) {
+            document.getElementById("lname").innerText = "Last Name can contain maximum 100 characters";
+        }
+    }
 </script>
 {% endblock jsfile %}

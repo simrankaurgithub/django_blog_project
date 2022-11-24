@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} {{post.title|lower}}{% endblock title %}
+{% block title %} {{profile.username|lower}}{% endblock title %}
 
 {% block CSS %} {{block.super}}
 <style>
@@ -17,9 +17,8 @@
         height:40px;
     }
     .profile-button:hover {
-        background:orange;
-        border:orange;
-        color:black;
+        color:orange;
+        font-weight: bold;
     }
     
 </style>
@@ -30,13 +29,13 @@
 <section  id="bg-color">
     <div class="container">
         <div class="offset-9 col-4 pt-3">
-            <a href="{% url 'add-blog' %}"><button class="profile-button">Add Blog</button></a>
+            <a href="{% url 'add-blog' profile.username %}"><button class="profile-button mb-md-5 mb-sm-5">Add Blog</button></a>
             <a href="{% url 'edit-profile' profile.username %}"><button class="profile-button">Edit Profile
             </button>
             </a>
         </div>
         <div class="row py-4">
-            <div class="col-5  ">
+            <div class="col-lg-5  ">
                 {% if profile.image %}
                 <p class="text-center">
                     <img src="{{profile.image.url}}" alt="connect" class="profile-image" >
@@ -47,7 +46,7 @@
                 </p>
                 {% endif %}
             </div>
-            <div class="col-6 my-auto">
+            <div class="col-lg-6 my-auto">
                 <table class="table">
                     <tbody>
                         <tr>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Registraion{% endblock title %}
+{% block title %}blog{% endblock title %}
 
 {% block CSS %}{{block.super}}
 <style>
@@ -34,8 +34,21 @@
     .anker-tag {
         font-size: 14px;
     }
-    #cke_id_content{
-        width:100% !important;
+
+    #cke_id_content {
+        width: 100% !important;
+    }
+
+    .cat {
+        border: 1px solid rgb(216, 214, 214);
+        padding: 6px;
+        border-radius: 5px;
+    }
+
+    .cat:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
     }
 </style>
 {% endblock CSS %}
@@ -45,45 +58,37 @@
 
 
 <div class="py-xs-0 py-md-5 py-sm-5 py-lg-5 ">
-    <form method="POST" novalidate enctype="multipart/form-data" action=""
+    <form method="POST" novalidate enctype="multipart/form-data"
         class="px-4 shadow-lg  mx-auto register-form bg-white col-xs-8 col-sm-8 col-md-5 col-lg-8 py-4">
         {% csrf_token %}
         {{add_form.media}}
-        <h2 class="text-center pb-3 register-heading">Add Blog</h1>
+        <h2 class="text-center pb-3 register-heading"> Blog</h1>
             <div class="row my-3">
                 <div class="col-3">{{add_form.title.label}}</div>
-                <div class="col-9">
-                    {{add_form.title}}
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3">{{add_form.slug.label}}</div>
-                <div class="col-9">
-                    {{add_form.slug}}
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3">{{add_form.author.label}}</div>
-                <div class="col-9">{{add_form.author}}
+                <div class="col-9">{{add_form.title}}
+                        <small id="name" class="text-danger">{{add_form.title.errors|striptags}}
+                        </small>
                 </div>
             </div>
             <div class=" row my-3">
-                <div class="col-3">{{add_form.category_id.label}} </div>
+                <div class="col-3">Category </div>
                 <div class="col-9">{{add_form.category_id}}
+                    <small class="text-danger">{{add_form.category.errors|striptags}}</small>
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-3">{{add_form.image.label}}</div>
-                <div class="col-9">
-                    {{add_form.image}}
+                <div class="col-9">{{add_form.image}} </br>
+                    <small class="text-danger">{{add_form.image.errors|striptags}}</small>
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-3">{{add_form.content.label}}</div>
                 <div class="col-9">{{add_form.content}}
+                    <small id="name" class="text-danger">{{add_form.content.errors|striptags}}</small>
                 </div>
-            </div> 
-            <input type="submit" onclick="validate()" value="Add" class="my-2 w-100 btn btn-warning register-button">
+            </div>
+            <input type="submit" onclick="validate()" value="Save" class="my-2 w-100 btn btn-warning register-button">
     </form>
 </div>
 {% endblock content %}
@@ -92,4 +97,5 @@
 
 {% block jsfile %}
 {{block.super}}
+
 {% endblock jsfile %}
